@@ -5,16 +5,19 @@ function doInit () {
     Count = 0
 }
 function endJanken () {
+    Status = 4
     basic.showNumber(Score)
     basic.pause(100)
     if (Score == 0) {
-        music.startMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once)
+        music.startMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.OnceInBackground)
         basic.showNumber(Score)
         basic.showIcon(IconNames.Skull)
+        music.stopMelody(MelodyStopOptions.All)
     } else if (Score <= 2) {
-        music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once)
+        music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.OnceInBackground)
         basic.showIcon(IconNames.Happy)
         basic.showNumber(Score)
+        music.stopMelody(MelodyStopOptions.All)
     } else if (Score == 3) {
         music.startMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.OnceInBackground)
         for (let index = 0; index < 5; index++) {
@@ -23,8 +26,8 @@ function endJanken () {
         }
         basic.showString("Thank you!")
         basic.showNumber(Score)
+        music.stopMelody(MelodyStopOptions.All)
     }
-    doInit()
 }
 function doJanken () {
     Status = randint(1, 3)
@@ -96,6 +99,7 @@ function doJanken () {
     } else {
         endJanken()
     }
+    doInit()
 }
 input.onButtonPressed(Button.A, function () {
     MyHand = 1
