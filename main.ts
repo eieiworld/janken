@@ -1,11 +1,14 @@
+function doInit () {
+    Score = 0
+    MyHand = 0
+    Status = 0
+    Count = 0
+}
 function endJanken () {
     basic.showNumber(Score)
     basic.pause(100)
     if (Score == 0) {
         music.startMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once)
-        for (let index = 0; index < 4; index++) {
-        	
-        }
         basic.showNumber(Score)
         basic.showIcon(IconNames.Skull)
     } else if (Score <= 2) {
@@ -14,13 +17,14 @@ function endJanken () {
         basic.showNumber(Score)
     } else if (Score == 3) {
         music.startMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.OnceInBackground)
-        for (let index = 0; index < 4; index++) {
+        for (let index = 0; index < 5; index++) {
             basic.showIcon(IconNames.SmallHeart)
             basic.showIcon(IconNames.Heart)
         }
         basic.showString("Thank you!")
         basic.showNumber(Score)
     }
+    doInit()
 }
 function doJanken () {
     Status = randint(1, 3)
@@ -87,7 +91,7 @@ function doJanken () {
         }
         Count += 1
     }
-    if (Count < 2) {
+    if (Count < 3) {
         doJanken()
     } else {
         endJanken()
@@ -116,10 +120,7 @@ let Count = 0
 let Status = 0
 let MyHand = 0
 let Score = 0
-Score = 0
-MyHand = 0
-Status = 0
-Count = 0
+doInit()
 basic.forever(function () {
     waitForJanken()
 })
