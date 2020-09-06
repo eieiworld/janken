@@ -28,6 +28,7 @@ function endJanken () {
         basic.showNumber(Score)
         music.stopMelody(MelodyStopOptions.All)
     }
+    doInit()
 }
 function doJanken () {
     Status = randint(1, 3)
@@ -67,39 +68,44 @@ function doJanken () {
     }
     if (Status == MyHand) {
         basic.pause(1000)
-        MyHand = 0
-        doJanken()
+        Result = 0
     } else {
         if (Status == 1 && MyHand == 2) {
             basic.pause(1000)
             basic.showIcon(IconNames.Silly)
+            Count += 1
         } else if (Status == 1 && MyHand == 3) {
             basic.pause(1000)
             basic.showIcon(IconNames.Confused)
             Score += 1
+            Count += 1
         } else if (Status == 2 && MyHand == 3) {
             basic.pause(1000)
             basic.showIcon(IconNames.Silly)
+            Count += 1
         } else if (Status == 2 && MyHand == 1) {
             basic.pause(1000)
             basic.showIcon(IconNames.Confused)
             Score += 1
+            Count += 1
         } else if (Status == 3 && MyHand == 1) {
             basic.pause(1000)
             basic.showIcon(IconNames.Silly)
+            Count += 1
         } else if (Status == 3 && MyHand == 2) {
             basic.pause(1000)
             basic.showIcon(IconNames.Confused)
             Score += 1
+            Count += 1
         }
-        Count += 1
     }
+    basic.pause(2000)
     if (Count < 3) {
+        MyHand = 0
         doJanken()
     } else {
         endJanken()
     }
-    doInit()
 }
 input.onButtonPressed(Button.A, function () {
     MyHand = 1
@@ -110,7 +116,7 @@ input.onGesture(Gesture.Shake, function () {
     }
 })
 function waitForJanken () {
-    if (Status == 0) {
+    while (Status == 0) {
         basic.showIcon(IconNames.Asleep)
     }
 }
@@ -120,11 +126,9 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     MyHand = 2
 })
+let Result = 0
 let Count = 0
 let Status = 0
 let MyHand = 0
 let Score = 0
 doInit()
-basic.forever(function () {
-    waitForJanken()
-})
