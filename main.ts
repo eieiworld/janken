@@ -6,31 +6,32 @@ function doInit () {
 }
 function endJanken () {
     Status = 4
-    basic.showNumber(Score)
-    basic.pause(100)
     if (Score == 0) {
-        music.startMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.OnceInBackground)
-        basic.showNumber(Score)
         basic.showIcon(IconNames.Skull)
-        music.stopMelody(MelodyStopOptions.All)
-    } else if (Score <= 2) {
-        music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.OnceInBackground)
-        basic.showIcon(IconNames.Happy)
+        music.startMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once)
+        basic.pause(2000)
         basic.showNumber(Score)
-        music.stopMelody(MelodyStopOptions.All)
+    } else if (Score <= 2) {
+        basic.showIcon(IconNames.Happy)
+        music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once)
+        basic.pause(2000)
+        basic.showNumber(Score)
     } else if (Score == 3) {
-        music.startMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.OnceInBackground)
+        music.startMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.ForeverInBackground)
         for (let index = 0; index < 5; index++) {
             basic.showIcon(IconNames.SmallHeart)
             basic.showIcon(IconNames.Heart)
         }
-        basic.showString("Thank you!")
+        basic.showString("Good Job!")
         basic.showNumber(Score)
-        music.stopMelody(MelodyStopOptions.All)
     }
+    basic.pause(5000)
+    music.stopMelody(MelodyStopOptions.All)
     doInit()
+    waitForJanken()
 }
 function doJanken () {
+    MyHand = 0
     Status = randint(1, 3)
     music.playTone(440, music.beat(BeatFraction.Whole))
     basic.showIcon(IconNames.SmallDiamond)
@@ -101,7 +102,6 @@ function doJanken () {
     }
     basic.pause(2000)
     if (Count < 3) {
-        MyHand = 0
         doJanken()
     } else {
         endJanken()
@@ -132,3 +132,4 @@ let Status = 0
 let MyHand = 0
 let Score = 0
 doInit()
+waitForJanken()
